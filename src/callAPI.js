@@ -34,5 +34,15 @@ const fetchProfileHours = async (id, vanity) => {
     }
 }
 
-//fetchProfileHours("76561198066104727").then(res => console.log(res));
-export {fetchProfileHours};
+const fetchProfileInfo = async (id, vanity) => {
+    try {
+        let {data} = await axios.get(process.env.REACT_APP_APIURL + "/profiles/" + id + "?vanity=" + vanity);
+
+        return data;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+export {fetchProfileHours, fetchProfileInfo};

@@ -1,5 +1,5 @@
 import React from 'react';
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer} from 'victory';
+import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer, VictoryTooltip} from 'victory';
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi")
 
@@ -85,6 +85,7 @@ class ProfileChart extends React.Component {
                 domainPadding={50}
                 scale={{x: "time"}}
                 domain={{ y: [0, 100] }}
+                padding={{top: 15, bottom: 30, right: 50, left: 50}}
                 containerComponent={
                     <VictoryZoomVoronoiContainer 
                         zoomDimension={"x"} 
@@ -93,10 +94,10 @@ class ProfileChart extends React.Component {
                         labels={({datum}) => ` Date: ${datum.x.toDateString()}\n Hours: ${datum.y}`}
                         voronoiBlacklist={["scatter"]}
                         // responsive={false}
-                        radius={5}
+                        radius={3}
                     />
                 }
-                //style={{parent: {maxWidth: "60%", maxHeight:"30%"}}}
+                style={{parent: {maxWidth: "90%", maxHeight:"80%", margin: "auto"}}}
             >
                 <VictoryAxis 
                     style={{
@@ -122,10 +123,24 @@ class ProfileChart extends React.Component {
                     color={"tomato"}
                 >
                     <VictoryLine name="line"/>
-                    <VictoryScatter name="scatter"/>
+                    <VictoryScatter 
+                        name="scatter"
+                        events={[{
+                            target: "data",
+                            eventHandlers: {
+                                onClick: () => {
+                                    return [{
+                                        target: "data",
+                                        mutation: (props) => this.props.onClick(props)
+                                    }]
+                                }
+                            }
+                        }]}
+                    />
                 </VictoryGroup>
                 
             </VictoryChart>
+
         );
     }
 }
