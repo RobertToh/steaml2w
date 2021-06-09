@@ -1,9 +1,10 @@
 import React from 'react';
-import ReactDOM from "react-dom"
-import ProfileURLForm from "./ProfileURLForm"
+import ReactDOM from "react-dom";
+import ProfileURLForm from "./ProfileURLForm";
 import { fetchProfileHours, fetchProfileInfo } from "./callAPI.js";
-import ProfileChart from "./ProfileChart"
-import ProfileInfo from "./ProfileInfo"
+import ProfileChart from "./ProfileChart";
+import ProfileInfo from "./ProfileInfo";
+import GameBreakdown from "./GameBreakdown";
 
 function validate_URL(URL) {
     //let regex = /(?:https?:\/\/)?steamcommunity\.com\/(?:profiles|id)\/[a-zA-Z0-9]+/;
@@ -49,14 +50,13 @@ class ProfileLookupChart extends React.Component {
         e.preventDefault();
         let valid = validate_URL(this.state.url)
         if (valid === null) {
-            this.setState({data: -1, render: true, profile: []})
+            this.setState({data: -1, render: true, profile: [], clicked: -1})
         }
         else {
             let res = await fetchProfileHours(valid.id, valid.vanity);
             let profile = await fetchProfileInfo(valid.id, valid.vanity);
-            this.setState({ data: res, render: true, profile: profile});
+            this.setState({ data: res, render: true, profile: profile, clicked: -1});
         }
-
         
     }
 
@@ -67,7 +67,7 @@ class ProfileLookupChart extends React.Component {
     render() {
         let chart;
         let profile;
-
+        
         //Defining chart
         if (this.state.data.length === 0) {
             chart = <p>No user data</p>
@@ -90,7 +90,6 @@ class ProfileLookupChart extends React.Component {
             profile = <ProfileInfo profile={this.state.profile} />
         }
 
-
         return (
             <div className="ProfileLookupChart">
                 <ProfileURLForm 
@@ -104,7 +103,9 @@ class ProfileLookupChart extends React.Component {
                         {chart}
                     </div>
                 }
-                <div id="game-breakdown">{this.state.clicked >= 0 && <p>test</p>}</div>
+                <div id="game-breakdown">
+                    {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 && <GameBreakdown games={this.state.data[this.state.clicked].games}/>}
+                </div>
             </div>
             
         );
