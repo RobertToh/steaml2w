@@ -1,0 +1,13 @@
+img {
+    float: left;
+} 
+
+.profile-info {
+    margin: auto;
+    width: 25%;
+    color: white;
+}
+
+span {
+    line-height: 184px;
+}

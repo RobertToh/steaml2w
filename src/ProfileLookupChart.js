@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from "react-dom";
+import "./ProfileLookupChart.css"
 import ProfileURLForm from "./ProfileURLForm";
 import { fetchProfileHours, fetchProfileInfo } from "./callAPI.js";
 import ProfileChart from "./ProfileChart";
@@ -91,7 +91,7 @@ class ProfileLookupChart extends React.Component {
         }
 
         return (
-            <div className="ProfileLookupChart">
+            <div className="profile-lookup-chart">
                 <ProfileURLForm 
                     url={this.state.url}
                     onURLChange={this.handleURLChange}
@@ -100,11 +100,18 @@ class ProfileLookupChart extends React.Component {
                 {this.state.render && 
                     <div> 
                         {profile}
-                        {chart}
+                        <div className="chart">
+                            {chart}
+                        </div>
                     </div>
                 }
-                <div id="game-breakdown">
-                    {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 && <GameBreakdown games={this.state.data[this.state.clicked].games}/>}
+                <div className="game-breakdown">
+                    {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 && 
+                        <GameBreakdown 
+                            games={this.state.data[this.state.clicked].games}
+                            date={this.state.data[this.state.clicked].log_date}
+                        />
+                    }
                 </div>
             </div>
             

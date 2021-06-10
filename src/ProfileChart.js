@@ -1,5 +1,5 @@
 import React from 'react';
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer, VictoryTooltip} from 'victory';
+import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer} from 'victory';
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi")
 
@@ -41,7 +41,7 @@ class ProfileChart extends React.Component {
                         radius={3}
                     />
                 }
-                style={{parent: {maxWidth: "90%", maxHeight:"80%", margin: "auto"}}}
+                //style={{parent: {maxWidth: "50%", maxHeight:"80%", margin: "auto"}}}
             >
                 <VictoryAxis 
                     style={{

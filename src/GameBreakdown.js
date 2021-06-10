@@ -39,6 +39,8 @@ CustomLabel.defaultEvents = VictoryTooltip.defaultEvents;
 
 class GameBreakdown extends React.Component {
     render() {
+        let date = new Date(this.props.date);
+        let formatted_date = date.toDateString().slice(4);
         let games = this.props.games;
         let data = [];
         let total_mins = 0;
@@ -50,8 +52,9 @@ class GameBreakdown extends React.Component {
             });
             total_mins += game.playtime_2weeks;
         });
+
         return (
-            <svg viewBox="0 0 400 400" width="75%">
+            <svg viewBox="0 0 400 400">
             <VictoryPie
                 standalone={false}
                 //style={{ labels: { fill: "white", }, parent: { maxWidth: "75%", maxHeight: "75%", margin: "auto" } }}
@@ -64,7 +67,7 @@ class GameBreakdown extends React.Component {
             <VictoryLabel
                 textAnchor="middle"
                 x={200} y={170}
-                text={"Last 2 Week Hours: " + parseFloat(total_mins / 60).toFixed(1)}
+                text={formatted_date + "\nLast 2 Week Hours: " + parseFloat(total_mins / 60).toFixed(1)}
                 style={{fill: "white", fontSize: 14}}
             />
             </svg>
