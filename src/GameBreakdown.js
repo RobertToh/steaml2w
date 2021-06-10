@@ -6,7 +6,7 @@ class CustomLabel extends React.Component {
         let datum = this.props.datum;
         let props = this.props;
         let copy = { ...this.props };
-        copy.text = datum.x + "\nHours: " + parseFloat(datum.y / 60).toFixed(1);
+        copy.text = datum.x + "\nHours: " + parseFloat(datum.y / 60).toFixed(2);
         return (
             <g>
                 <image
@@ -38,36 +38,68 @@ CustomLabel.defaultEvents = VictoryTooltip.defaultEvents;
 
 
 class GameBreakdown extends React.Component {
-    render() {
-        let date = new Date(this.props.date);
-        let formatted_date = date.toDateString().slice(4);
+    constructor(props) {
+        super(props);
+        this.pieData = [];
+        this.startData = [];
         let games = this.props.games;
-        let data = [];
-        let total_mins = 0;
+        this.total_mins = 0;
+        this.fillData(games);
+        this.state = {data: this.startData};
+    }
+
+    fillData(games) {
+        this.pieData = [];
+        this.startData = [];
+        this.total_mins = 0;
         games.forEach(game => {
-            data.push({
+            this.pieData.push({
                 x: game.name,
                 y: game.playtime_2weeks,
                 logo: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_logo_url + ".jpg"
             });
-            total_mins += game.playtime_2weeks;
+            this.total_mins += game.playtime_2weeks;
+
+            this.startData.push({
+                x: game.name,
+                y: 0
+            });
         });
+        this.startData[0].y = 100;
+    }
+
+    componentDidMount() {
+        this.setState({data: this.pieData});
+    }
+    
+    componentDidUpdate(prevProps) {
+        if (this.props.date !== prevProps.date) {
+            this.fillData(this.props.games);
+            this.setState({data: this.pieData});
+        }
+    }
+
+    render() {
+        let date = new Date(this.props.date);
+        let formatted_date = date.toDateString().slice(4);
+
 
         return (
             <svg viewBox="0 0 400 400">
             <VictoryPie
+                animate={{ easing: 'exp' }}
                 standalone={false}
                 //style={{ labels: { fill: "white", }, parent: { maxWidth: "75%", maxHeight: "75%", margin: "auto" } }}
                 innerRadius={100}
                 // labelRadius={120}
                 labels={({ datum }) => `# ${datum.y}`}
                 labelComponent={<CustomLabel />}
-                data={data}
+                data={this.state.data}
             />
             <VictoryLabel
                 textAnchor="middle"
                 x={200} y={170}
-                text={formatted_date + "\nLast 2 Week Hours: " + parseFloat(total_mins / 60).toFixed(1)}
+                text={formatted_date + "\nLast 2 Week Hours: " + parseFloat(this.total_mins / 60).toFixed(1)}
                 style={{fill: "white", fontSize: 14}}
             />
             </svg>
