@@ -7,14 +7,19 @@ class ProfileChart extends React.Component {
 
     constructor(props) {
         super(props);
-    }
 
-    render() {
         let today = new Date();
         let l2w = new Date(today);
         l2w.setDate(today.getDate()-7);
         let x_range = [l2w, today];
+        this.state = { zoomDomain: {x: x_range}};
+    }
 
+    handleZoom(domain) {
+        this.setState({ zoomDomain: domain });
+    }
+
+    render() {
         let data = this.props.data;
         let plotPoints = [];
         for (let i = 0; i < data.length; i++) {
@@ -34,7 +39,8 @@ class ProfileChart extends React.Component {
                     <VictoryZoomVoronoiContainer 
                         zoomDimension={"x"} 
                         minimumZoom={{ x: 500000000, y: 0 }} 
-                        zoomDomain={{x: x_range}}
+                        zoomDomain={this.state.zoomDomain}
+                        onZoomDomainChange={this.handleZoom.bind(this)}
                         labels={({datum}) => ` Date: ${datum.x.toDateString()}\n L2W Hours: ${datum.y}`}
                         voronoiBlacklist={["scatter"]}
                         // responsive={false}
