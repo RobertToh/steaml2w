@@ -1,5 +1,5 @@
 import React from 'react';
-import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer} from 'victory';
+import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer, VictoryZoomContainer, VictoryTooltip} from 'victory';
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi")
 
@@ -23,8 +23,12 @@ class ProfileChart extends React.Component {
         let data = this.props.data;
         let plotPoints = [];
         for (let i = 0; i < data.length; i++) {
-            plotPoints.push({ x: new Date(data[i].log_date.split("T")[0] + "T00:00:00"), y: data[i].l2w });
+            let x = new Date(data[i].log_date.split("T")[0] + "T00:00:00");
+            let y = data[i].l2w;
+            let label = ` Date: ${x.toDateString()}\n L2W Hours: ${y}`;
+            plotPoints.push({ x: x, y: y, label: label });
             //plotPoints.push({ x: new Date(data[i].log_date), y: data[i].l2w });
+
         }
 
         return (
@@ -36,15 +40,16 @@ class ProfileChart extends React.Component {
                 domain={{ y: [0, 100] }}
                 padding={{top: 15, bottom: 30, right: 50, left: 50}}
                 containerComponent={
-                    <VictoryZoomVoronoiContainer 
+                    <VictoryZoomContainer 
                         zoomDimension={"x"} 
                         minimumZoom={{ x: 500000000, y: 0 }} 
                         zoomDomain={this.state.zoomDomain}
                         onZoomDomainChange={this.handleZoom.bind(this)}
-                        labels={({datum}) => ` Date: ${datum.x.toDateString()}\n L2W Hours: ${datum.y}`}
-                        voronoiBlacklist={["scatter"]}
+                        //labels={({datum}) => ` Date: ${datum.x.toDateString()}\n L2W Hours: ${datum.y}`}
+                        //voronoiBlacklist={["scatter"]}
                         // responsive={false}
                         radius={3}
+                        allowZoom={false}
                     />
                 }
                 //style={{parent: {maxWidth: "50%", maxHeight:"80%", margin: "auto"}}}
@@ -71,21 +76,34 @@ class ProfileChart extends React.Component {
                 <VictoryGroup
                     data={plotPoints}
                     color={"tomato"}
+                    animate={{
+                        onLoad: {
+                            delay: 0,
+                            before: () => ({ _x: 0 }),
+                            after: datum => ({ _x: datum._x })
+                        },
+                        duration: 1000,
+                        easing: "expIn",
+                        delay: 0
+                    }}
                 >
-                    <VictoryLine name="line"/>
+                    <VictoryLine name="line" labelComponent={<VictoryTooltip active={false}/>}/>
                     <VictoryScatter 
                         name="scatter"
                         events={[{
                             target: "data",
                             eventHandlers: {
                                 onClick: () => {
-                                    return [{
-                                        target: "data",
-                                        mutation: (props) => this.props.onClick(props)
-                                    }]
+                                    return [
+                                        {
+                                            target: "data",
+                                            mutation: (props) => this.props.onClick(props)
+                                        }
+                                    ]
                                 }
                             }
                         }]}
+                        labelComponent={<VictoryTooltip/>}
                     />
                 </VictoryGroup>
                 
