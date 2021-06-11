@@ -1,5 +1,5 @@
 import React from 'react';
-import "./ProfileLookupChart.css"
+//import "./ProfileLookupChart.css"
 import ProfileURLForm from "./ProfileURLForm";
 import { fetchProfileHours, fetchProfileInfo } from "./callAPI.js";
 import ProfileChart from "./ProfileChart";
@@ -112,34 +112,44 @@ class ProfileLookupChart extends React.Component {
         }
 
         return (
-            <div className="profile-lookup-chart">
-                <ProfileURLForm 
-                    url={this.state.url}
-                    onURLChange={this.handleURLChange}
-                    onSubmit={this.handleSubmit}
-                />
-                <LoadingIndicator />
+            <div className="profile-lookup-chart container">
+                <div className="row py-3" name="profile-search">
+                    <ProfileURLForm 
+                        url={this.state.url}
+                        onURLChange={this.handleURLChange}
+                        onSubmit={this.handleSubmit}
+                    />
+                    <LoadingIndicator />
+                </div>
+
                 {this.state.render && 
-                    <div> 
-                        <div>
-                            {profile}
-                            {error !== undefined && error}
-                        </div>
-                        {error === undefined && 
+                <div className="row profile-display py-2 justify-content-center" name="profile-display"> 
+                        {profile}
+                        {error !== undefined && error}
+                </div>
+                }
+
+
+                <div className="row align-items-center" name="profile-charts">
+                    <div className="col-7">
+                        {(this.state.render && error === undefined) &&
                             <div className="chart">
                                 {chart}
                             </div>
                         }
                     </div>
-                }
-                <div className="game-breakdown">
-                    {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 && 
-                        <GameBreakdown 
-                            games={this.state.data[this.state.clicked].games}
-                            date={this.state.data[this.state.clicked].log_date}
-                        />
-                    }
+                    <div className="col-5">
+                        <div className="game-breakdown h-100">
+                            {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 &&
+                                <GameBreakdown
+                                    games={this.state.data[this.state.clicked].games}
+                                    date={this.state.data[this.state.clicked].log_date}
+                                />
+                            }
+                        </div>
+                    </div>                  
                 </div>
+
             </div>
             
         );

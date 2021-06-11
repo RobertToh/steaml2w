@@ -32,9 +32,12 @@ class ProfileChart extends React.Component {
         }
 
         return (
+            <div className="card">
+
+            
             <VictoryChart
                 width={750}
-                height={400}
+                height={450}
                 domainPadding={50}
                 scale={{x: "time"}}
                 domain={{ y: [0, 100] }}
@@ -70,12 +73,12 @@ class ProfileChart extends React.Component {
                         ticks: { stroke: "white" },
                         axisLabel: {fill: "white", padding: 35},
                         tickLabels: { fill: "white" },
-                        grid: {stroke: "grey"}
+                        grid: {stroke: "white"}
                     }}
                 />
                 <VictoryGroup
                     data={plotPoints}
-                    color={"tomato"}
+                    color={"black"}
                     // animate={{
                     //     onLoad: {
                     //         delay: 0,
@@ -103,12 +106,12 @@ class ProfileChart extends React.Component {
                                 }
                             }
                         }]}
-                        labelComponent={<VictoryTooltip/>}
+                        labelComponent={<VictoryTooltip flyoutPadding={10}/>}
                     />
                 </VictoryGroup>
                 
             </VictoryChart>
-
+            </div>
         );
     }
 }

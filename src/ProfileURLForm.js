@@ -21,7 +21,7 @@ class ProfileURLForm extends React.Component {
         return (
             <form onSubmit={this.handleSubmit}>
                 <label>
-                    <input type="text" value={this.props.url} onChange={this.handleChange} placeholder="Enter Steam Profile URL" size="60" />
+                    <input type="text" className="form-control" value={this.props.url} onChange={this.handleChange} placeholder="Enter Steam Profile URL" size="60" />
                 </label>
             </form>
         );

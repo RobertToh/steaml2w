@@ -17,17 +17,16 @@ class CustomLabel extends React.Component {
                     href={datum.logo}
                     textAnchor="middle"
                 />
-                {/* <VictoryLabel {...this.props} dx={30} dy={0}/> */}
                 <VictoryTooltip
                     {...copy}
-                    x={200} y={250}
+                    x={263} y={270}
                     orientation="top"
                     pointerLength={0}
                     cornerRadius={50}
                     flyoutWidth={100}
                     flyoutHeight={100}
                     flyoutStyle={{ fill: "#282c34", stroke: "#282c34"}}
-                     style={{ fontSize: 12, fill: "white"}}
+                    style={{ fontSize: 16, fill: "white"}}
                 />
             </g>
         );
@@ -85,24 +84,31 @@ class GameBreakdown extends React.Component {
 
 
         return (
-            <svg viewBox="0 0 400 400">
-            <VictoryPie
-                animate={{ easing: 'exp' }}
-                standalone={false}
-                //style={{ labels: { fill: "white", }, parent: { maxWidth: "75%", maxHeight: "75%", margin: "auto" } }}
-                innerRadius={100}
-                // labelRadius={120}
-                labels={({ datum }) => `# ${datum.y}`}
-                labelComponent={<CustomLabel />}
-                data={this.state.data}
-            />
-            <VictoryLabel
-                textAnchor="middle"
-                x={200} y={170}
-                text={formatted_date + "\nLast 2 Week Hours: " + parseFloat(this.total_mins / 60).toFixed(1)}
-                style={{fill: "white", fontSize: 14}}
-            />
-            </svg>
+            <div className="card">
+                <svg viewBox="0 0 527 450">
+                <VictoryPie
+                    animate={{ easing: 'exp' }}
+                    standalone={false}
+                    //style={{ labels: { fill: "white", }, parent: { maxWidth: "75%", maxHeight: "75%", margin: "auto" } }}
+                    innerRadius={120}
+                    // labelRadius={120}
+                    labels={({ datum }) => `# ${datum.y}`}
+                    labelComponent={<CustomLabel />}
+                    data={this.state.data}
+                    padding={35}
+                    width={527}
+                    height={450}
+                />
+                <VictoryLabel
+                    textAnchor="middle"
+                    x={263} y={160}
+                    text={formatted_date + "\nLast 2 Week Hours: " + parseFloat(this.total_mins / 60).toFixed(1)}
+                    style={{fill: "white", fontSize: 16}}
+                />
+                {/* <p className="card-text mb-0">{formatted_date}</p>
+                <p className="card-text">{"Last 2 Week Hours: " + parseFloat(this.total_mins / 60).toFixed(1)}</p> */}
+                </svg>
+            </div>
         );
     }
 }

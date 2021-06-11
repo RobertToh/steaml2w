@@ -40,3 +40,16 @@
 input {
   text-align: center;
 }
+
+.card {
+  /* background-color: #282c34; */
+  background-color: #45a29e;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.modal-content {
+  color: white;
+  background-color: #1f2833;
+}
+

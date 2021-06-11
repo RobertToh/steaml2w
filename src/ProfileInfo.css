@@ -1,13 +1,13 @@
-img {
+/* img {
     float: left;
-} 
+}  */
 
-.profile-info {
+.profile-display {
     margin: auto;
     width: 25%;
     color: white;
 }
 
-span {
+/* span {
     line-height: 184px;
-}
+} */
