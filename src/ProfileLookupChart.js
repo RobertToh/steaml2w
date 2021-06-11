@@ -5,6 +5,8 @@ import { fetchProfileHours, fetchProfileInfo } from "./callAPI.js";
 import ProfileChart from "./ProfileChart";
 import ProfileInfo from "./ProfileInfo";
 import GameBreakdown from "./GameBreakdown";
+import {trackPromise} from "react-promise-tracker";
+import LoadingIndicator from './LoadingIndicator';
 
 function validate_URL(URL) {
     //let regex = /(?:https?:\/\/)?steamcommunity\.com\/(?:profiles|id)\/[a-zA-Z0-9]+/;
@@ -46,18 +48,36 @@ class ProfileLookupChart extends React.Component {
         this.setState({url: URL});
     }
 
-    async handleSubmit(e) {
+    // async handleSubmit(e) {
+    //     e.preventDefault();
+    //     let valid = validate_URL(this.state.url)
+    //     if (valid === null) {
+    //         this.setState({data: -1, render: true, profile: [], clicked: -1})
+    //     }
+    //     else {
+    //         let res = await fetchProfileHours(valid.id, valid.vanity);
+    //         let profile = await fetchProfileInfo(valid.id, valid.vanity);
+    //         this.setState({ data: res, render: true, profile: profile, clicked: -1});
+    //     }
+        
+    // }
+
+    handleSubmit(e) {
         e.preventDefault();
         let valid = validate_URL(this.state.url)
         if (valid === null) {
-            this.setState({data: -1, render: true, profile: [], clicked: -1})
+            this.setState({ data: -1, render: true, profile: [], clicked: -1 })
         }
         else {
-            let res = await fetchProfileHours(valid.id, valid.vanity);
-            let profile = await fetchProfileInfo(valid.id, valid.vanity);
-            this.setState({ data: res, render: true, profile: profile, clicked: -1});
+            trackPromise(
+                fetchProfileHours(valid.id, valid.vanity).then(res => {
+                    fetchProfileInfo(valid.id, valid.vanity).then(profile => {
+                        this.setState({ data: res, render: true, profile: profile, clicked: -1 });
+                    });
+                })
+            );
         }
-        
+
     }
 
     displayGameBreakdown(props) {
@@ -67,16 +87,17 @@ class ProfileLookupChart extends React.Component {
     render() {
         let chart;
         let profile;
+        let error;
         
         //Defining chart
         if (this.state.data.length === 0) {
-            chart = <p>No user data</p>
+            error = <p>No user data</p>
         }
         else if (this.state.data === null) {
-            chart = <p>Server Error, try again</p>
+            error = <p>Server Error, try again</p>
         }
         else if (this.state.data === -1) {
-            chart = <p>Invalid Profile URL</p>
+            error = <p>Invalid Profile URL</p>
         }
         else {
             chart = <ProfileChart data={this.state.data} onClick={this.displayGameBreakdown}/>
@@ -97,12 +118,18 @@ class ProfileLookupChart extends React.Component {
                     onURLChange={this.handleURLChange}
                     onSubmit={this.handleSubmit}
                 />
+                <LoadingIndicator />
                 {this.state.render && 
                     <div> 
-                        {profile}
-                        <div className="chart">
-                            {chart}
+                        <div>
+                            {profile}
+                            {error !== undefined && error}
                         </div>
+                        {error === undefined && 
+                            <div className="chart">
+                                {chart}
+                            </div>
+                        }
                     </div>
                 }
                 <div className="game-breakdown">

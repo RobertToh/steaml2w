@@ -76,16 +76,16 @@ class ProfileChart extends React.Component {
                 <VictoryGroup
                     data={plotPoints}
                     color={"tomato"}
-                    animate={{
-                        onLoad: {
-                            delay: 0,
-                            before: () => ({ _x: 0 }),
-                            after: datum => ({ _x: datum._x })
-                        },
-                        duration: 1000,
-                        easing: "expIn",
-                        delay: 0
-                    }}
+                    // animate={{
+                    //     onLoad: {
+                    //         delay: 0,
+                    //         before: () => ({ _x: 0 }),
+                    //         after: datum => ({ _x: datum._x })
+                    //     },
+                    //     duration: 1000,
+                    //     easing: "expIn",
+                    //     delay: 0
+                    // }}
                 >
                     <VictoryLine name="line" labelComponent={<VictoryTooltip active={false}/>}/>
                     <VictoryScatter 
