@@ -19,8 +19,9 @@ class ProfileInfo extends React.Component {
         // </div>
             <div className="card " style={{width: "14rem"}}>
                 <img src={profile.avatar} alt="avatar" className="card-img-top border border-dark border-3 rounded" />
-                <div className="card-body">
-                    <span><h5>{profile.personaname}</h5></span>
+                <div className="card-body py-2">
+                    {/* <span><h5>{profile.personaname}</h5></span> */}
+                    <h5 className="card-subtitle">{profile.personaname}</h5>
                 </div>
             </div>
         )

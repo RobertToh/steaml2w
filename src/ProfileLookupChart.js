@@ -73,6 +73,7 @@ class ProfileLookupChart extends React.Component {
                 fetchProfileHours(valid.id, valid.vanity).then(res => {
                     fetchProfileInfo(valid.id, valid.vanity).then(profile => {
                         this.setState({ data: res, render: true, profile: profile, clicked: -1 });
+                        this.props.hideInstructions();
                     });
                 })
             );
@@ -113,7 +114,7 @@ class ProfileLookupChart extends React.Component {
 
         return (
             <div className="profile-lookup-chart container">
-                <div className="row py-3" name="profile-search">
+                <div className="row pt-4 pb-3" name="profile-search">
                     <ProfileURLForm 
                         url={this.state.url}
                         onURLChange={this.handleURLChange}
@@ -131,15 +132,15 @@ class ProfileLookupChart extends React.Component {
 
 
                 <div className="row align-items-center" name="profile-charts">
-                    <div className="col-7">
+                    <div className="col-xl-7 col-md-12">
                         {(this.state.render && error === undefined) &&
-                            <div className="chart">
+                            <div className="chart my-3">
                                 {chart}
                             </div>
                         }
                     </div>
-                    <div className="col-5">
-                        <div className="game-breakdown h-100">
+                    <div className="col-xl-5 col-md-12">
+                        <div className="game-breakdown h-100 my-3">
                             {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 &&
                                 <GameBreakdown
                                     games={this.state.data[this.state.clicked].games}
