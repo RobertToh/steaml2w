@@ -7,6 +7,7 @@ import ProfileInfo from "./ProfileInfo";
 import GameBreakdown from "./GameBreakdown";
 import {trackPromise} from "react-promise-tracker";
 import LoadingIndicator from './LoadingIndicator';
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 function validate_URL(URL) {
     //let regex = /(?:https?:\/\/)?steamcommunity\.com\/(?:profiles|id)\/[a-zA-Z0-9]+/;
@@ -72,8 +73,10 @@ class ProfileLookupChart extends React.Component {
             trackPromise(
                 fetchProfileHours(valid.id, valid.vanity).then(res => {
                     fetchProfileInfo(valid.id, valid.vanity).then(profile => {
-                        this.setState({ data: res, render: true, profile: profile, clicked: -1 });
+                        // this.setState({ data: res, render: true, profile: profile, clicked: -1 });
+                        this.setState({ data: res, profile: profile, clicked: -1 });
                         this.props.hideInstructions();
+                        this.setState({render: false}, () => setTimeout(()=>this.setState({render:true}), 100))
                     });
                 })
             );
@@ -115,17 +118,25 @@ class ProfileLookupChart extends React.Component {
         return (
             <div className="profile-lookup-chart container">
                 <div className="row pt-4 pb-3" name="profile-search">
-                    <ProfileURLForm 
-                        url={this.state.url}
-                        onURLChange={this.handleURLChange}
-                        onSubmit={this.handleSubmit}
-                    />
+                    <TransitionGroup appear={true} exit={true}>
+                        <CSSTransition key="url" classNames="fade" timeout={{ appear: 300, exit: 300 }}>
+                            <ProfileURLForm 
+                                url={this.state.url}
+                                onURLChange={this.handleURLChange}
+                                onSubmit={this.handleSubmit}
+                            />
+                        </CSSTransition>
+                    </TransitionGroup>
                     <LoadingIndicator />
                 </div>
 
                 {this.state.render && 
                 <div className="row profile-display py-2 justify-content-center" name="profile-display"> 
-                        {profile}
+                        <TransitionGroup in={this.state.render} appear={true} exit={true}>
+                            <CSSTransition key={this.state.profile} classNames="fade" timeout={{ appear: 300, exit: 300 }}>
+                                {profile}
+                            </CSSTransition>
+                        </TransitionGroup>
                         {error !== undefined && error}
                 </div>
                 }
@@ -135,17 +146,25 @@ class ProfileLookupChart extends React.Component {
                     <div className="col-xl-7 col-md-12">
                         {(this.state.render && error === undefined) &&
                             <div className="chart my-3">
-                                {chart}
+                                <TransitionGroup in={this.state.render} appear={true} exit={true}>
+                                    <CSSTransition key={this.state.data} classNames="fade" timeout={{ appear: 300, exit: 300 }} unmountOnExit>
+                                        {chart}
+                                    </CSSTransition>
+                                </TransitionGroup>
                             </div>
                         }
                     </div>
                     <div className="col-xl-5 col-md-12">
                         <div className="game-breakdown h-100 my-3">
                             {this.state.clicked >= 0 && this.state.data[this.state.clicked].games.length != 0 &&
-                                <GameBreakdown
-                                    games={this.state.data[this.state.clicked].games}
-                                    date={this.state.data[this.state.clicked].log_date}
-                                />
+                                <TransitionGroup in={this.state.render} appear={true} exit={true}>
+                                    <CSSTransition key="breakdown" classNames="fade" timeout={{ appear: 300, exit: 300 }}>
+                                        <GameBreakdown
+                                            games={this.state.data[this.state.clicked].games}
+                                            date={this.state.data[this.state.clicked].log_date}
+                                        />
+                                    </CSSTransition>
+                                </TransitionGroup>
                             }
                         </div>
                     </div>                  

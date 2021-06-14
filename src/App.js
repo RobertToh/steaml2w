@@ -1,5 +1,6 @@
 import React from 'react';
-import ProfileLookupChart from "./ProfileLookupChart"
+import ProfileLookupChart from "./ProfileLookupChart";
+import {CSSTransition, TransitionGroup} from "react-transition-group";
 
 
 
@@ -69,13 +70,19 @@ class App extends React.Component {
                     <ProfileLookupChart hideInstructions={this.hideInstructions}/>
 
                     {this.state.renderInstructions &&
-                        <div className="container w-50 px-0">
-                            <div className="card">
-                                <div className="card-body">
-                                    <p className="card-text">Text</p>
-                                </div>
-                            </div>
-                        </div> 
+                        
+                        <TransitionGroup appear={true} exit={true}>
+                            <CSSTransition key="instructions" classNames="fade" timeout={{ appear: 500, exit: 300 }}>
+                                <div className="container w-50 px-0">
+                                    <div className="card">
+                                        <div className="card-body">
+                                            <p className="card-text">Text</p>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </CSSTransition>
+                        </TransitionGroup>
+                        
                     }
                 </div>
             </div>
