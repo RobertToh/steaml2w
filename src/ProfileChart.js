@@ -1,8 +1,6 @@
 import React from 'react';
 import { VictoryChart, VictoryLine, VictoryAxis, VictoryScatter, VictoryGroup, createContainer, VictoryZoomContainer, VictoryTooltip} from 'victory';
 
-const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi")
-
 class ProfileChart extends React.Component {
 
     constructor(props) {
@@ -46,7 +44,6 @@ class ProfileChart extends React.Component {
             let y = data[i].l2w;
             let label = ` Date: ${x.toDateString()}\n L2W Hours: ${y}`;
             plotPoints.push({ x: x, y: y, label: label });
-            //plotPoints.push({ x: new Date(data[i].log_date), y: data[i].l2w });
 
         }
 
@@ -66,15 +63,12 @@ class ProfileChart extends React.Component {
                             minimumZoom={{ x: 500000000, y: 0 }} 
                             zoomDomain={this.state.zoomDomain}
                             onZoomDomainChange={this.handleZoom.bind(this)}
-                            //labels={({datum}) => ` Date: ${datum.x.toDateString()}\n L2W Hours: ${datum.y}`}
-                            //voronoiBlacklist={["scatter"]}
                             // responsive={false}
                             radius={3}
                             allowZoom={false}
                             allowPan={this.state.pan}
                         />
                     }
-                    //style={{parent: {maxWidth: "50%", maxHeight:"80%", margin: "auto"}}}
                 >
                     <VictoryAxis 
                         style={{
@@ -98,16 +92,6 @@ class ProfileChart extends React.Component {
                     <VictoryGroup
                         data={plotPoints}
                         color={"white"}
-                        // animate={{
-                        //     onLoad: {
-                        //         delay: 0,
-                        //         before: () => ({ _x: 0 }),
-                        //         after: datum => ({ _x: datum._x })
-                        //     },
-                        //     duration: 1000,
-                        //     easing: "expIn",
-                        //     delay: 0
-                        // }}
                     >
                         <VictoryLine name="line" labelComponent={<VictoryTooltip active={false}/>}/>
                         <VictoryScatter 
@@ -136,11 +120,6 @@ class ProfileChart extends React.Component {
                     <button onClick={this.zoomWeeks.bind(this)} className="btn btn-outline-light">
                         Week
                     </button>
-                    {/* <input type="radio" className="btn-check" name="btnradio" id="btnradio1"  onClick={this.zoomMonths.bind(this)}/>
-                    <label className="btn btn-outline-primary" for="btnradio1">Month</label>
-
-                    <input type="radio" className="btn-check" name="btnradio" id="btnradio2"  onClick={this.zoomWeeks.bind(this)} checked/>
-                    <label className="btn btn-outline-primary" for="btnradio2">Week</label> */}
                 </div>
             </div>
         );

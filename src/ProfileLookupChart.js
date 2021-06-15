@@ -1,5 +1,4 @@
 import React from 'react';
-//import "./ProfileLookupChart.css"
 import ProfileURLForm from "./ProfileURLForm";
 import { fetchProfileHours, fetchProfileInfo } from "./callAPI.js";
 import ProfileChart from "./ProfileChart";
@@ -10,8 +9,7 @@ import LoadingIndicator from './LoadingIndicator';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 function validate_URL(URL) {
-    //let regex = /(?:https?:\/\/)?steamcommunity\.com\/(?:profiles|id)\/[a-zA-Z0-9]+/;
-    let regex = /^(?:https?:\/\/)?steamcommunity\.com\/(?:profiles\/[0-9]{17}|id\/[a-zA-Z0-9].*)/;
+    let regex = /^(?:https?:\/\/)?steamcommunity\.com\/(?:profiles\/[0-9]{17}|id\/[a-zA-Z0-9].*)\/?$/;
     let n = URL.search(regex);
     
     if (n === -1) {
@@ -48,20 +46,6 @@ class ProfileLookupChart extends React.Component {
     handleURLChange(URL) {
         this.setState({url: URL});
     }
-
-    // async handleSubmit(e) {
-    //     e.preventDefault();
-    //     let valid = validate_URL(this.state.url)
-    //     if (valid === null) {
-    //         this.setState({data: -1, render: true, profile: [], clicked: -1})
-    //     }
-    //     else {
-    //         let res = await fetchProfileHours(valid.id, valid.vanity);
-    //         let profile = await fetchProfileInfo(valid.id, valid.vanity);
-    //         this.setState({ data: res, render: true, profile: profile, clicked: -1});
-    //     }
-        
-    // }
 
     handleSubmit(e) {
         e.preventDefault();

@@ -17,12 +17,12 @@ class CustomLabel extends React.Component {
             <g>
                 <VictoryLabel {...this.props} 
                     backgroundComponent={<image
-                    width="61"
-                    height="23"
-                    transform="translate(-30, -11.5)"
-                    href={datum.logo}
-                    textAnchor="middle"
-                    style={{opacity: 1}}
+                        width="61"
+                        height="23"
+                        transform="translate(-30, -10.5)"
+                        href={datum.logo}
+                        textAnchor="middle"
+                        style={{opacity: 1}}
                     />}
 
                     text="-"
@@ -69,8 +69,8 @@ class GameBreakdown extends React.Component {
             this.pieData.push({
                 x: game.name,
                 y: game.playtime_2weeks,
-                logo: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_logo_url + ".jpg"
-                //logo: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_icon_url + ".jpg"
+                //logo: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_logo_url + ".jpg"
+                logo: "http://media.steampowered.com/steamcommunity/public/images/apps/" + game.appid + "/" + game.img_icon_url + ".jpg"
             });
             this.total_mins += game.playtime_2weeks;
 
