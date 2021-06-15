@@ -46,7 +46,12 @@ class App extends React.Component {
                                 <h5 className="modal-title w-100" id="aboutModalLabel">About</h5>
                             </div>
                             <div className="modal-body">
-                                <p className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                <p className="text-center">
+                                    Steam L2W tracks a Steam user's recent (last two weeks) activities, including the total amount of hours and individual game breakdown. 
+                                    All of this is done using Steam's Web API and a MongoDB backend.
+                                    <br/><br/>
+                                    Steam L2W is not affiliated with Valve. All trademarks and registered trademarks are the property of their respective owners
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -56,10 +61,13 @@ class App extends React.Component {
                     <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                         <div className="modal-content ">
                             <div className="modal-header text-center">
-                                <h5 className="modal-title w-100" id="aboutModalLabel">Privacy</h5>
+                                <h5 className="modal-title w-100" id="privacyModalLabel">Privacy</h5>
                             </div>
                             <div className="modal-body">
-                                <p className="text-center">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                                <p className="text-center">
+                                    Steam L2W collects all its data through Steam's Web API. In order to collect data, the steam user's profile must be public. All requests
+                                    through the Steam Web API only retrieve public data, no private data is read nor stored. 
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -75,8 +83,21 @@ class App extends React.Component {
                             <CSSTransition key="instructions" classNames="fade" timeout={{ appear: 500, exit: 300 }}>
                                 <div className="container w-50 px-0">
                                     <div className="card">
+                                        <div className="modal-header text-center">
+                                            <h5 className="modal-title w-100">Instructions</h5>
+                                        </div>
                                         <div className="card-body">
-                                            <p className="card-text">Text</p>
+                                            <p className="card-text">
+                                                Enter into the search bar a valid Steam profile URL. 
+                                                <br/><br/>
+                                                A valid Steam profile URL is either in the form
+                                                <br/>
+                                                <i>https://steamcommunity.com/profiles/#################/</i>
+                                                <br/>
+                                                or
+                                                <br/>
+                                                <i>https://steamcommunity.com/id/XXXXXXXXXXXXXXXXX/</i>
+                                            </p>
                                         </div>
                                     </div>
                                 </div> 
